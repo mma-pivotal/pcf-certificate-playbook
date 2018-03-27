@@ -104,11 +104,11 @@ Certificate chain
 
 Look at the last line (i: means issuer) and you can see the root CA subject name.
 
-Note that the certificate itself has a wildcard subject name (\*.cfapps-10.haas-59.pez.pivotal.io). This is configured in OPS Manager GUI -> PAS tile -> Domains -> System / Apps domain. 
+Note that the certificate itself has a wildcard subject name (\*.cfapps-10.haas-59.pez.pivotal.io) and it is different from the actual hostname we are trying to access. This is because I configured goRouter as the SSL endpoint for my lab and I configured the domain names  in OPS Manager GUI -> PAS tile -> Domains -> System / Apps domain. 
 
-If you configured goRouter as your SSL endpoint, all your applications would share the same certificate (Apps Domain certificate) by default.
+With this configuration, all ingress traffic would see the same certificate (Apps Domain certificate) by default.
 
-Here is an example
+Here is an another example when I try to access an application running in my lab environment.
 
 ```
 openssl s_client -connect spring-music-boisterous-serval.cfapps-10.haas-59.pez.pivotal.io:443 -showcerts
