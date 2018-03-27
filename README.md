@@ -104,3 +104,23 @@ Certificate chain
 
 Look at the last line (i: means issuer) and you can see the root CA subject name.
 
+Note that the certificate itself has a wildcard subject name (\*.cfapps-10.haas-59.pez.pivotal.io). This is configured in OPS Manager GUI -> PAS tile -> Domains -> System / Apps domain. 
+
+If you configured goRouter as your SSL endpoint, all your applications would share the same certificate (Apps Domain certificate) by default.
+
+Here is an example
+
+```
+openssl s_client -connect spring-music-boisterous-serval.cfapps-10.haas-59.pez.pivotal.io:443 -showcerts
+CONNECTED(00000003)
+depth=0 C = US, O = Pivotal, CN = *.cfapps-10.haas-59.pez.pivotal.io
+verify error:num=20:unable to get local issuer certificate
+verify return:1
+depth=0 C = US, O = Pivotal, CN = *.cfapps-10.haas-59.pez.pivotal.io
+verify error:num=21:unable to verify the first certificate
+verify return:1
+---
+Certificate chain
+ 0 s:/C=US/O=Pivotal/CN=*.cfapps-10.haas-59.pez.pivotal.io
+   i:/C=US/O=Pivotal
+```
